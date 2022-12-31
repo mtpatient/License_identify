@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import filedialog
 from PIL import Image, ImageTk
+import matplotlib.pyplot as plt
+import cv2
+import function
 
 
 # 导入图片
@@ -10,9 +13,16 @@ def load_img():
     print(file_path)
 
     img_open = Image.open(file_path)
+    global img
     img = ImageTk.PhotoImage(img_open)
 
-    Label_img.image = img
+    Label_img["image"] = img
+
+    car_img = cv2.imread(file_path)
+    carLicense = function.getPostion(car_img)
+
+    plt.imshow(carLicense)
+    plt.show()
 
 
 # 创建GUI窗口
@@ -32,7 +42,7 @@ Label_img = Label(left_frame, bg='Gainsboro', height=420, width=460)
 Label_img.place(x=0, y=32)
 
 # 右区域
-right_frame = Frame(root, height=500, width=300, bg='cyan')
+right_frame = Frame(root, height=500, width=300)
 right_frame.pack(side='right')
 
 Label_res_title = Label(right_frame, text='识别结果:', font=("微软雅黑", 12))
